@@ -15,6 +15,44 @@ class Board:
             for col in range(row % 2, COLS, 2):
                 pygame.draw.rect(win, RED, (row*SQUARE_SIZE, col *SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE))
 
+    ## improved the evaluation function
+    def evaluate(self):
+        # Basic material count
+        material_score = self.white_left - self.red_left
+        
+        # King bonus
+        king_score = (self.white_kings * 0.8) - (self.red_kings * 0.8)
+        
+        # Position bonus - pieces closer to becoming kings
+        position_score = 0
+        for piece in self.get_all_pieces(WHITE):
+            if not piece.king:
+                position_score += (7 - piece.row) * 0.1  # Closer to red side = better
+        
+        for piece in self.get_all_pieces(RED):
+            if not piece.king:
+                position_score -= piece.row * 0.1  # Closer to white side = worse for white
+        
+        # Center control bonus
+        center_score = 0
+        for row in range(2, 6):
+            for col in range(2, 6):
+                piece = self.get_piece(row, col)
+                if piece and piece.color == WHITE:
+                    center_score += 0.2
+                elif piece and piece.color == RED:
+                    center_score -= 0.2
+        
+        return material_score + king_score + position_score + center_score
+    
+    def get_all_pieces(self, color):
+        pieces = []
+        for row in self.board:
+            for piece in row:
+                if piece != 0 and piece.color == color:
+                    pieces.append(piece)
+        return pieces
+
     def move(self, piece, row, col):
         self.board[piece.row][piece.col], self.board[row][col] = self.board[row][col], self.board[piece.row][piece.col]
         piece.move(row, col)
