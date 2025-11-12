@@ -3,6 +3,7 @@ import pygame
 from checkers.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkers.game import Game
 from minimax.algorithm import minimax
+from rl.agent import RLAgent
 
 FPS = 60
 
@@ -20,12 +21,27 @@ def main():
     clock = pygame.time.Clock()
     game = Game(WIN)
 
+    # Load RL agent for WHITE
+    rl_agent = RLAgent(WHITE, epsilon=0.0)  # No exploration in play
+    try:
+        rl_agent.load_model('rl/model.pth')
+        print("Loaded RL model")
+    except:
+        print("No RL model found, using minimax")
+
     while run:
         clock.tick(FPS)
 
         if game.turn == WHITE:
-            value, new_board = minimax(game.get_board(), 8, WHITE, game)
-            game.ai_move(new_board)
+            # Use RL agent
+            action = rl_agent.get_action(game.get_board())
+            if action:
+                from rl.utils import apply_action
+                new_board = apply_action(game.get_board(), action, WHITE)
+                game.ai_move(new_board)
+            else:
+                # No moves
+                run = False
 
         if game.winner() != None:
             print(game.winner())
