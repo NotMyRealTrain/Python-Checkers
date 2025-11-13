@@ -39,7 +39,7 @@ def play_game(agent, opponent_color, max_moves=100):
                     done = True
             agent.remember(state, action, reward, next_state, done)
         else:
-            # Opponent
+            # opponent
             is_max_player = (opponent_color == WHITE)
             value, new_board = minimax(board, 2, is_max_player, game)
             game.ai_move(new_board)

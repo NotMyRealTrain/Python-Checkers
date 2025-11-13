@@ -77,8 +77,8 @@ def draw_moves(game, board, piece):
     #pygame.time.delay(100)
 
 def minimax_alpha_beta(position, depth, max_player, game):
-    """
-    Convenience function for minimax with alpha-beta pruning.
-    This is the main function to call from external code.
-    """
+
+    # Convenience function for minimax with alpha-beta pruning.
+    # This is the main function to call from external code.
+
     return minimax(position, depth, max_player, game, float('-inf'), float('inf'))

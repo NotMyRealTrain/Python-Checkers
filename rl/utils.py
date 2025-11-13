@@ -2,11 +2,9 @@ import numpy as np
 from checkers.constants import ROWS, COLS, RED, WHITE
 
 def board_to_state(board):
-    """
-    Convert board to a numerical state representation.
-    Returns a 1D numpy array of shape (ROWS * COLS * 5,) where each square is one-hot encoded.
-    5 channels: empty, red_piece, red_king, white_piece, white_king
-    """
+    # Convert board to a numerical state representation
+    # Returns a 1D numpy array of shape (ROWS * COLS * 5,)
+    # where each square is either empty, red_piece, red_king, white_piece, white_king
     state = np.zeros((ROWS, COLS, 5), dtype=np.float32)
     for row in range(ROWS):
         for col in range(COLS):
@@ -27,10 +25,8 @@ def board_to_state(board):
     return state.flatten()
 
 def get_valid_actions(board, color):
-    """
-    Get list of valid actions for a color.
-    Each action is a tuple (piece_row, piece_col, move_row, move_col)
-    """
+    # Get list of valid actions for a color
+    # Each action is a tuple (piece_row, piece_col, move_row, move_col)
     actions = []
     for piece in board.get_all_pieces(color):
         valid_moves = board.get_valid_moves(piece)
@@ -39,10 +35,8 @@ def get_valid_actions(board, color):
     return actions
 
 def apply_action(board, action, color):
-    """
-    Apply an action to the board and return the new board.
-    Action is (piece_row, piece_col, move_row, move_col)
-    """
+    # Apply an action to the board and return the new board
+    # Action is (piece_row, piece_col, move_row, move_col)
     from copy import deepcopy
     new_board = deepcopy(board)
     piece_row, piece_col, move_row, move_col = action
