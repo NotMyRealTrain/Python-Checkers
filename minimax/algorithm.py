@@ -20,7 +20,7 @@ def minimax(position, depth, max_player, game, alpha=float('-inf'), beta=float('
             
             alpha = max(alpha, evaluation)
             if beta <= alpha:
-                break  # Beta cutoff (alpha-beta pruning)
+                break  # Beta cutoff 
         
         return maxEval, best_move
     else:
@@ -34,7 +34,7 @@ def minimax(position, depth, max_player, game, alpha=float('-inf'), beta=float('
             
             beta = min(beta, evaluation)
             if beta <= alpha:
-                break  # Alpha cutoff (alpha-beta pruning)
+                break  # Alpha cutoff 
         
         return minEval, best_move
 
@@ -78,7 +78,6 @@ def draw_moves(game, board, piece):
 
 def minimax_alpha_beta(position, depth, max_player, game):
 
-    # Convenience function for minimax with alpha-beta pruning.
-    # This is the main function to call from external code.
+    # convenience function for minimax with alpha-beta pruning.
 
     return minimax(position, depth, max_player, game, float('-inf'), float('inf'))

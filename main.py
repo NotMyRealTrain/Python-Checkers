@@ -22,7 +22,7 @@ def main():
     game = Game(WIN)
 
     # Load RL agent for WHITE
-    rl_agent = RLAgent(WHITE, epsilon=0.0)  # No exploration in play
+    rl_agent = RLAgent(WHITE, epsilon=0.0)  # I want no exploration in play
     try:
         rl_agent.load_model('rl/model.pth')
         print("Loaded RL model")

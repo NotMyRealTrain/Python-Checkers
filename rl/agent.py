@@ -9,7 +9,7 @@ from .utils import board_to_state, get_valid_actions, apply_action
 from checkers.constants import ROWS, COLS
 
 class RLAgent:
-    def __init__(self, color, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.995, gamma=0.99, lr=0.001, batch_size=64, memory_size=10000):
+    def __init__(self, color, epsilon=1.0, epsilon_min=0.01, epsilon_decay=0.95, gamma=0.99, lr=0.001, batch_size=64, memory_size=10000):
         self.color = color
         self.input_size = ROWS * COLS * 5
         self.model = ValueNetwork(self.input_size)

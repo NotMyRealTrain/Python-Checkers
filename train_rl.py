@@ -41,22 +41,25 @@ def play_game(agent, opponent_color, max_moves=100):
         else:
             # opponent
             is_max_player = (opponent_color == WHITE)
-            value, new_board = minimax(board, 2, is_max_player, game)
-            game.ai_move(new_board)
-            board = new_board
-            if game.winner() != None:
+            value, new_board = minimax(board, 4, is_max_player, game)
+            if new_board is None:
                 done = True
+            else:
+                game.ai_move(new_board)
+                board = new_board
+                if game.winner() != None:
+                    done = True
         moves += 1
     return done and reward if done else 0
 
-def train_agent(episodes=100):
+def train_agent(episodes=50):
     agent = RLAgent(WHITE)  # Agent plays as WHITE
     for episode in range(episodes):
         reward = play_game(agent, RED)
         agent.replay()
         if episode % 10 == 0:
             print(f"Episode {episode}, Epsilon: {agent.epsilon:.3f}, Reward: {reward}")
-    agent.save_model('rl/model.pth')
+    agent.save_model('rl/modeltest.pth')
     print("Training complete")
 
 if __name__ == "__main__":
